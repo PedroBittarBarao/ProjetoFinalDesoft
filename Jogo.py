@@ -1,10 +1,9 @@
 import pygame
+import Classes
+import config
 
-WIDTH, HEIGHT = 800, 720
-WINDOW=pygame.display.set_mode((WIDTH,HEIGHT))
+WINDOW=pygame.display.set_mode((config.WIDTH,config.HEIGHT))
 pygame.display.set_caption('Nome')
-
-FPS = 60 
 
 def draw_window():
     WINDOW.fill((255,255,255))
@@ -14,7 +13,7 @@ def main():
     clock=pygame.time.Clock()
     game=True
     while game:
-        clock.tick(FPS)
+        clock.tick(config.FPS)
         for event in pygame.event.get():
             if event.type==pygame.QUIT:
                 game=False
