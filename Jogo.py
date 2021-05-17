@@ -1,6 +1,7 @@
 import pygame
 import Classes
 import config
+import Assets
 
 WINDOW=pygame.display.set_mode((config.WIDTH,config.HEIGHT))
 pygame.display.set_caption('Nome')
