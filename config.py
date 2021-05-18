@@ -14,6 +14,10 @@ FPS = 60 # Frames por segundo
 #tamanhos
 BLOCK_WIDTH=28
 BLOCK_HEIGHT=14
+BALL_WIDTH=12
+BALL_HEIGHT=12
+BAT_WIDTH=26
+BAT_HEIGHT=12
 
 #estados
 INIT = 0
