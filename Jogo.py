@@ -1,5 +1,5 @@
 import pygame
-from funcoes import setup_blocks,setup_bat,setup_window,update_bat,update_blocks,WINDOW
+from funcoes import setup_blocks,setup_bat,setup_window, update_ball,update_bat,update_blocks,WINDOW
 import config
 from config import BLOCK_HEIGHT,BLOCK_WIDTH, WIDTH
 import Assets
@@ -19,6 +19,7 @@ def update_window(event):
     WINDOW.blit(assets[BACKGROUND], (0, 0))
     update_bat(BAT_POS,event)
     update_blocks(setup_blocks())
+    update_ball(event)
     pygame.display.update()
 
 def main():
@@ -32,7 +33,7 @@ def main():
         for event in pygame.event.get():
             if event.type==pygame.QUIT:
                 game=False
-            update_window(event)
+        update_window(event)
 
     pygame.QUIT
 
