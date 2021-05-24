@@ -19,8 +19,8 @@ def load_assets():
     assets[BLOCK_IMG_GRN] = pygame.image.load(os.path.join(IMG_DIR, 'Bloco Verde.png')).convert()
     assets[BLOCK_IMG_BLU] = pygame.image.load(os.path.join(IMG_DIR, 'Bloco Azul.png')).convert()
     assets[BLOCK_IMG_YLW] = pygame.image.load(os.path.join(IMG_DIR, 'Bloco Amarelo.png')).convert()
-    assets[BALL_IMG] = pygame.image.load(os.path.join(IMG_DIR, 'bat_blue.png')).convert()
-    assets[BAT_IMG] = pygame.image.load(os.path.join(IMG_DIR, 'ball_red.png')).convert()
+    assets[BALL_IMG] = pygame.image.load(os.path.join(IMG_DIR, 'ball_red.png')).convert()
+    assets[BAT_IMG] = pygame.image.load(os.path.join(IMG_DIR, 'bat_blue.png')).convert()
     assets[GAME_FONT] = pygame.font.Font(os.path.join(FNT_DIR, 'ArcadeNormal-ZDZ.ttf'), 28)
 
     #pygame.mixer.music.load(os.path.join(SND_DIR, 'TBD'))
