@@ -11,6 +11,7 @@ BLOCK_IMG_YLW='block_img_ylw'
 BAT_IMG='bat_img'
 BALL_IMG='ball_img'
 GAME_FONT='game_font'
+TITLE_SCREEN='title_screen'
 
 def load_assets():
     assets={}
@@ -22,7 +23,7 @@ def load_assets():
     assets[BALL_IMG] = pygame.image.load(os.path.join(IMG_DIR, 'ball_red.png')).convert()
     assets[BAT_IMG] = pygame.image.load(os.path.join(IMG_DIR, 'bat_blue.png')).convert()
     assets[GAME_FONT] = pygame.font.Font(os.path.join(FNT_DIR, 'ArcadeNormal-ZDZ.ttf'), 28)
-
+    assets[TITLE_SCREEN] = pygame.image.load(os.path.join(IMG_DIR, 'Title_screen_placeholder.png')).convert()
     #pygame.mixer.music.load(os.path.join(SND_DIR, 'TBD'))
     #pygame.mixer.music.set_volume(0.4)
 

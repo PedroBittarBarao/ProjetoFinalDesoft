@@ -13,13 +13,13 @@ keys_down = {}
 
    
 
-def update_window(event,lista_current_speed): # puxa funções de atualização e atualiza a tela
+def update_window(event,lista_current_speed,ball_img_rect,bat_img_rect,blocks_rect,block_img_blu_scale,block_keys): # puxa funções de atualização e atualiza a tela
     WINDOW.fill((255,255,255))
     assets=Assets.load_assets()
     WINDOW.blit(assets[BACKGROUND], (0, 0))
     update_bat(BAT_POS,event)
-    update_blocks(setup_blocks())
-    update_speed(lista_current_speed)
+    update_blocks([block_img_blu_scale,blocks_rect,block_keys])
+    update_speed(lista_current_speed,ball_img_rect,bat_img_rect,blocks_rect,block_keys)
     update_ball(event,lista_current_speed)
     pygame.display.update()
 
@@ -28,13 +28,18 @@ def main():
     pygame.font.init()
     clock=pygame.time.Clock()
     game=True
-    lista_current_speed=setup_window()
+    lista_current_speed=setup_window()[0]
+    ball_img_rect=setup_window()[1]
+    bat_img_rect=setup_window()[2]
+    block_keys=setup_window()[5]
+    blocks_rect=setup_window()[3]
+    block_img_blu_scale=setup_window()[4]
     while game:
         clock.tick(config.FPS)
         for event in pygame.event.get():
             if event.type==pygame.QUIT:
                 game=False
-        update_window(event,lista_current_speed)
+        update_window(event,lista_current_speed,ball_img_rect,bat_img_rect,blocks_rect,block_img_blu_scale,block_keys)
 
     pygame.QUIT
 
