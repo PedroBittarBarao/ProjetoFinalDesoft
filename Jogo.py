@@ -18,8 +18,8 @@ def update_window(event,lista_current_speed,ball_img_rect,bat_img_rect,blocks_re
     assets=Assets.load_assets()
     WINDOW.blit(assets[BACKGROUND], (0, 0))
     update_bat(BAT_POS,event)
-    update_blocks([block_img_blu_scale,blocks_rect,block_keys])
     update_speed(lista_current_speed,ball_img_rect,bat_img_rect,blocks_rect,block_keys)
+    update_blocks([block_img_blu_scale,blocks_rect,block_keys])
     update_ball(event,lista_current_speed)
     pygame.display.update()
 
