@@ -21,9 +21,8 @@ keys_down = {}
 
 def setup_bat(BAT_WIDTH,BAT_HEIGHT): #cria o 'bat'
     assets=load_assets()
-    bat_img_scale=pygame.transform.scale(assets[BAT_IMG], (BAT_WIDTH,BAT_HEIGHT))
-    bat_img_rect=bat_img_scale.get_rect(topleft=(BAT_POS_0))
-    WINDOW.blit(bat_img_scale,bat_img_rect)
+    bat_img_rect=assets[BAT_IMG].get_rect(topleft=(BAT_POS_0))
+    WINDOW.blit(assets[BAT_IMG],bat_img_rect)
     return bat_img_rect
 
 
@@ -43,9 +42,8 @@ def setup_blocks(): #cria os blocos
 
 def setup_ball(): # cria a bola
     assets=load_assets()
-    ball_img_scale=pygame.transform.scale(assets[BALL_IMG], (BALL_WIDTH,BALL_HEIGHT))
-    ball_img_rect=ball_img_scale.get_rect(topleft=(BALL_POS_0))
-    WINDOW.blit(ball_img_scale, ball_img_rect)
+    ball_img_rect=assets[BALL_IMG].get_rect(topleft=(BALL_POS_0))
+    WINDOW.blit(assets[BALL_IMG], ball_img_rect)
     current_speed_HOR=BALL_SPEED_HOR
     current_speed_VERT=BALL_SPEED_VERT
     return [[current_speed_HOR,current_speed_VERT],ball_img_rect]
@@ -92,11 +90,10 @@ def update_speed(lista_current_speed,ball_img_rect,bat_img_rect,blocks_rect,bloc
 
 def update_ball(event,speed_lista): # atualiza a posição da bola
     assets=load_assets()
-    ball_img_scale=pygame.transform.scale(assets[BALL_IMG], (BALL_WIDTH,BALL_HEIGHT))
     BALL_POS[0]+=speed_lista[0]
     BALL_POS[1]+=speed_lista[1]
-    ball_img_rect=ball_img_scale.get_rect(topleft=(BALL_POS))
-    WINDOW.blit(ball_img_scale,ball_img_rect)
+    ball_img_rect=assets[BALL_IMG].get_rect(topleft=(BALL_POS))
+    WINDOW.blit(assets[BALL_IMG],ball_img_rect)
 
 def update_bat(BAT_POS,event): #atualiza a posição do 'bat'
     assets=load_assets()
@@ -107,10 +104,9 @@ def update_bat(BAT_POS,event): #atualiza a posição do 'bat'
         if event.key == pygame.K_RIGHT and BAT_POS[0]<(WIDTH-BAT_WIDTH):
             BAT_POS_0[0]+=15
     
-    bat_img_scale=pygame.transform.scale(assets[BAT_IMG], (BAT_WIDTH,BAT_HEIGHT))
-    bat_img_rect=bat_img_scale.get_rect(topleft=(BAT_POS))
-    WINDOW.blit(bat_img_scale, bat_img_rect)
+    bat_img_rect=assets[BAT_IMG].get_rect(topleft=(BAT_POS))
+    WINDOW.blit(assets[BAT_IMG], bat_img_rect)
     
     
 
-WINDOW=pygame.display.set_mode((config.WIDTH,config.HEIGHT)) #configura a janela
+WINDOW=pygame.display.set_mode((WIDTH,HEIGHT)) #configura a janela

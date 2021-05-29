@@ -17,12 +17,15 @@ def load_assets():
     
     assets = {}
     assets[BACKGROUND] = pygame.image.load(os.path.join(IMG_DIR, 'background.jpg')).convert()
+    #PASSAR A CONVERSÃO DA ESCALA DOS BLOCOS PARA ESTE ARQUIVO
     assets[BLOCK_IMG_RED] = pygame.image.load(os.path.join(IMG_DIR, 'Bloco Vermelho.png')).convert()
     assets[BLOCK_IMG_GRN] = pygame.image.load(os.path.join(IMG_DIR, 'Bloco Verde.png')).convert()
     assets[BLOCK_IMG_BLU] = pygame.image.load(os.path.join(IMG_DIR, 'Bloco Azul.png')).convert()
     assets[BLOCK_IMG_YLW] = pygame.image.load(os.path.join(IMG_DIR, 'Bloco Amarelo.png')).convert()
-    assets[BALL_IMG] = pygame.image.load(os.path.join(IMG_DIR, 'ball_red.png')).convert()
+    assets[BALL_IMG] = pygame.image.load(os.path.join(IMG_DIR, 'ball_red.png')).convert_alpha()
+    assets[BALL_IMG] = pygame.transform.scale(assets[BALL_IMG], (BALL_WIDTH,BALL_HEIGHT))
     assets[BAT_IMG] = pygame.image.load(os.path.join(IMG_DIR, 'bat_blue.png')).convert()
+    assets[BAT_IMG] = pygame.transform.scale(assets[BAT_IMG], (BAT_WIDTH,BAT_HEIGHT))
     assets[GAME_FONT] = pygame.font.Font(os.path.join(FNT_DIR, 'ArcadeNormal-ZDZ.ttf'), 28)
     #INCLUIR IMAGEM NA PASTA IMG
     assets[TITLE_SCREEN] = pygame.image.load(os.path.join(IMG_DIR, 'Title_screen_placeholder.png')).convert()
