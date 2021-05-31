@@ -16,6 +16,7 @@ BLOCK_SOUND_1='block_sound_1'
 BLOCK_SOUND_2='block_sound_2'
 PAREDE_SOUND='parede_SOUND'
 BAT_SOUND='bat_sound'
+GAME_OVER='game_over'
 
 def load_assets():
     
@@ -30,9 +31,10 @@ def load_assets():
     assets[BALL_IMG] = pygame.transform.scale(assets[BALL_IMG], (BALL_WIDTH,BALL_HEIGHT))
     assets[BAT_IMG] = pygame.image.load(os.path.join(IMG_DIR, 'bat_blue.png')).convert()
     assets[BAT_IMG] = pygame.transform.scale(assets[BAT_IMG], (BAT_WIDTH,BAT_HEIGHT))
-    assets[GAME_FONT] = pygame.font.Font(os.path.join(FNT_DIR, 'ArcadeNormal-ZDZ.ttf'), 28)
-    #INCLUIR IMAGEM NA PASTA IMG
+    assets[GAME_FONT] = pygame.font.Font(os.path.join(FNT_DIR, 'ArcadeNormal-ZDZ.ttf'), 20)
     assets[TITLE_SCREEN] = pygame.image.load(os.path.join(IMG_DIR, 'Title_screen_placeholder.png')).convert()
+    assets[GAME_OVER]= pygame.image.load(os.path.join(IMG_DIR, 'game_over_placeholder.png')).convert()
+    #INCLUIR IMAGEM NA PASTA IMG
     assets[BLOCK_SOUND_1]=pygame.mixer.Sound(os.path.join(SND_DIR, 'block1.wav'))
     assets[BLOCK_SOUND_2]=pygame.mixer.Sound(os.path.join(SND_DIR, 'block2.wav'))
     assets[PAREDE_SOUND]=pygame.mixer.Sound(os.path.join(SND_DIR, 'parede.wav'))
