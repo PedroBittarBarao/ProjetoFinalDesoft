@@ -1,5 +1,5 @@
 import pygame
-from funcoes import setup_blocks,setup_bat,setup_window, update_ball,update_bat,update_blocks,WINDOW,BALL_SPEED_HOR,BALL_SPEED_VERT, update_speed
+from funcoes import BALL_POS, draw_game_over, draw_title_screen, setup_blocks,setup_bat,setup_window, update_ball,update_bat,update_blocks,WINDOW,BALL_SPEED_HOR,BALL_SPEED_VERT, update_speed
 import config
 from config import BALL_SPEED_VERT_BASE, BLOCK_HEIGHT,BLOCK_WIDTH, WIDTH
 import Assets
@@ -11,6 +11,7 @@ pygame.display.set_caption('Nome')
 BAT_POS=config.BAT_POS_0
 keys_down = {}
 SCORE=0
+GAME_STATE=0
    
 
 def update_window(event,lista_current_speed,ball_img_rect,bat_img_rect,blocks_rect,block_img_blu_scale,block_keys,SCORE): # puxa funções de atualização e atualiza a tela
@@ -27,9 +28,6 @@ def update_window(event,lista_current_speed,ball_img_rect,bat_img_rect,blocks_re
     pygame.display.update()
 
 def main():
-    pygame.init
-    pygame.font.init()
-    pygame.mixer.init()
     clock=pygame.time.Clock()
     game=True
     lista_setup=setup_window()
@@ -46,6 +44,22 @@ def main():
                 game=False
         update_window(event,lista_current_speed,ball_img_rect,bat_img_rect,blocks_rect,block_img_blu_scale,block_keys,SCORE)
 
+
     pygame.QUIT
 
-main()
+
+while True:
+    
+    if GAME_STATE==0:
+        pygame.init
+        pygame.font.init()
+        pygame.mixer.init()
+        draw_title_screen()
+        for event in pygame.event.get():
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_SPACE:
+                    GAME_STATE=1
+
+    if GAME_STATE==1:
+        main()
+
