@@ -115,7 +115,6 @@ def update_speed(lista_current_speed,ball_img_rect,bat_img_rect,blocks_rect,bloc
     if BALL_POS[0]-BAT_POS[0]<=BAT_WIDTH and BALL_POS[0]-BAT_POS[0]>=0 and BALL_POS[1]-BAT_POS[1]<=BAT_HEIGHT and BALL_POS[1]-BAT_POS[1]>=0: # verifica condição de colisão enre bola e 'bat'
         lista_current_speed[1]*=-1
         pygame.mixer.Sound.play(assets[BAT_SOUND]) # toca o som de colisão com o 'bat'
-
     for block in block_keys:
         if block in blocks_rect.keys() and BALL_POS[0]-block_positions[block][0]<=BLOCK_WIDTH and BALL_POS[0]-block_positions[block][0]>=0  and BALL_POS[1]-block_positions[block][1]<=BLOCK_HEIGHT and BALL_POS[1]-block_positions[block][1]>=0: #verifica condição de colisão entre bola e bloco
             lista_current_speed[1]*=-1
