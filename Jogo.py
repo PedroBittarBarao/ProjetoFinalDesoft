@@ -29,6 +29,7 @@ def update_window(event,lista_current_speed,ball_img_rect,bat_img_rect,blocks_re
 def main():
     pygame.init
     pygame.font.init()
+    pygame.mixer.init()
     clock=pygame.time.Clock()
     game=True
     lista_setup=setup_window()

@@ -1,7 +1,7 @@
 import pygame
 import config
 from config import WIDTH,HEIGHT, BLOCK_WIDTH,BLOCK_HEIGHT, BALL_WIDTH,BALL_HEIGHT, BAT_WIDTH,BAT_HEIGHT, BALL_POS_0, BAT_POS_0, BALL_SPEED_HOR_BASE,BALL_SPEED_VERT_BASE
-from Assets import BACKGROUND, BLOCK_IMG_RED,BLOCK_IMG_GRN,BLOCK_IMG_BLU,BLOCK_IMG_YLW, BALL_IMG, BAT_IMG, GAME_FONT, load_assets
+from Assets import BACKGROUND, BAT_SOUND, BLOCK_IMG_RED,BLOCK_IMG_GRN,BLOCK_IMG_BLU,BLOCK_IMG_YLW, BALL_IMG, BAT_IMG, BLOCK_SOUND_1, GAME_FONT, PAREDE_SOUND, load_assets
 
 BALL_POS = BALL_POS_0
 BAT_POS = BAT_POS_0
@@ -64,12 +64,14 @@ def setup_window(): #puxa outras funções setup e cria a janela
     return [lista_current_speed,ball_img_rect,bat_img_rect,block_rect,block_img_blu_scale,block_keys]
     
 def update_blocks(lista): # atualiza os blocos
+    assets=load_assets()
     block_img_blu_scale=lista[0]
     blocks_rect=lista[1]
     block_keys=lista[2]
     for block in block_keys:
         if block in blocks_rect.keys() and BALL_POS[0]-block_positions[block][0]<=BLOCK_WIDTH and BALL_POS[0]-block_positions[block][0]>=0  and BALL_POS[1]-block_positions[block][1]<=BLOCK_HEIGHT and BALL_POS[1]-block_positions[block][1]>=0: #verifica condição de colisão entre bola e bloco
             blocks_rect.pop(block)
+            pygame.mixer.Sound.play(assets[BLOCK_SOUND_1])
         elif block in blocks_rect.keys():
             block_img_rect=block_img_blu_scale.get_rect(topleft=(block_positions[block]))
             blocks_rect[block]=block_img_rect
@@ -77,15 +79,21 @@ def update_blocks(lista): # atualiza os blocos
     
 
 def update_speed(lista_current_speed,ball_img_rect,bat_img_rect,blocks_rect,block_keys): #atualiza os valores de velocidade vertical e horizontal
+    assets=load_assets()
     if BALL_POS[0]>WIDTH or BALL_POS[0]<0 :
         lista_current_speed[0]*=-1
+        pygame.mixer.Sound.play(assets[PAREDE_SOUND])
     if BALL_POS[1]>HEIGHT-BALL_HEIGHT or BALL_POS[1]<(0+BALL_HEIGHT): # verifica condição de colidão entre bola e as bordas da janela
         lista_current_speed[1]*=-1
+        pygame.mixer.Sound.play(assets[PAREDE_SOUND])
     if BALL_POS[0]-BAT_POS[0]<=BAT_WIDTH and BALL_POS[0]-BAT_POS[0]>=0 and BALL_POS[1]-BAT_POS[1]<=BAT_HEIGHT and BALL_POS[1]-BAT_POS[1]>=0: # verifica condição de colisão enre bola e 'bat'
-        lista_current_speed[1]*=-1 
+        lista_current_speed[1]*=-1
+        pygame.mixer.Sound.play(assets[BAT_SOUND])
+        if BALL_POS[0]-BAT_POS[0]<=BAT_WIDTH/2 and BALL_POS[0]-BAT_POS[0]>=0:
+            lista_current_speed[0]*=-1
     for block in block_keys:
         if block in blocks_rect.keys() and BALL_POS[0]-block_positions[block][0]<=BLOCK_WIDTH and BALL_POS[0]-block_positions[block][0]>=0  and BALL_POS[1]-block_positions[block][1]<=BLOCK_HEIGHT and BALL_POS[1]-block_positions[block][1]>=0: #verifica condição de colisão entre bola e bloco
-            lista_current_speed[1]*=-1 
+            lista_current_speed[1]*=-1
     return lista_current_speed,block_keys, blocks_rect
 
 def update_ball(event,speed_lista): # atualiza a posição da bola
@@ -100,9 +108,9 @@ def update_bat(BAT_POS,event): #atualiza a posição do 'bat'
     if event.type == pygame.KEYDOWN:
         keys_down[event.key] = True
         if event.key == pygame.K_LEFT and BAT_POS[0]>0:
-           BAT_POS_0[0]-=15
+           BAT_POS_0[0]-=20
         if event.key == pygame.K_RIGHT and BAT_POS[0]<(WIDTH-BAT_WIDTH):
-            BAT_POS_0[0]+=15
+            BAT_POS_0[0]+=20
     
     bat_img_rect=assets[BAT_IMG].get_rect(topleft=(BAT_POS))
     WINDOW.blit(assets[BAT_IMG], bat_img_rect)
