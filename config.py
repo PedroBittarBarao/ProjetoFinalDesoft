@@ -29,6 +29,6 @@ BALL_POS_0 = [WIDTH/2-BLOCK_WIDTH,535] #posição inicial da bola(horizontal,ver
 BAT_POS_0 = [WIDTH/2-BLOCK_WIDTH,550] #posição inicial 'bat'(horizontal,vertical)
 
 #Velocidades iniciais da bola
-BALL_SPEED_HOR_BASE = -12
-BALL_SPEED_VERT_BASE = -12
+BALL_SPEED_HOR_BASE = -14
+BALL_SPEED_VERT_BASE = -15
 
