@@ -3,10 +3,10 @@ import config
 from config import WIDTH,HEIGHT, BLOCK_WIDTH,BLOCK_HEIGHT, BALL_WIDTH,BALL_HEIGHT, BAT_WIDTH,BAT_HEIGHT, BALL_POS_0, BAT_POS_0, BALL_SPEED_HOR_BASE,BALL_SPEED_VERT_BASE
 from Assets import BACKGROUND, BAT_SOUND, BLOCK_IMG_RED,BLOCK_IMG_GRN,BLOCK_IMG_BLU,BLOCK_IMG_YLW, BALL_IMG, BAT_IMG, BLOCK_SOUND_1, GAME_FONT, GAME_OVER, PAREDE_SOUND, TITLE_SCREEN, load_assets
 
-BALL_POS = BALL_POS_0
-BAT_POS = BAT_POS_0
-BALL_SPEED_HOR = BALL_SPEED_HOR_BASE
-BALL_SPEED_VERT = BALL_SPEED_VERT_BASE
+BALL_POS = BALL_POS_0 # armazena as posições (horizontal e vertical) da bola
+BAT_POS = BAT_POS_0 # armazena as posições (horizontal e vertical) do 'bat'
+BALL_SPEED_HOR = BALL_SPEED_HOR_BASE # armazena a velocidade horizontal da bola
+BALL_SPEED_VERT = BALL_SPEED_VERT_BASE # armazena a velocidade vertical da bola
 
 block_positions={'1-1': (0, 0), '2-1': (30, 0), '3-1': (60, 0), '4-1': (90, 0), '5-1': (120, 0), '6-1': (150, 0), '7-1': (180, 0), '8-1': (210, 0), '9-1': (240, 0), '10-1': (270, 0),
  '11-1': (300, 0), '12-1': (330, 0), '13-1': (360, 0), '14-1': (390, 0), '1-2': (0, 15), '2-2': (30, 15), '3-2': (60, 15), '4-2': (90, 15), '5-2': (120, 15), '6-2': (150, 15),
@@ -26,61 +26,41 @@ block_positions={'1-1': (0, 0), '2-1': (30, 0), '3-1': (60, 0), '4-1': (90, 0), 
 
 keys_down = {}
 
-def draw_title_screen():
-    game =True
-    while game:
-        for event in pygame.event.get():
-            if event.type==pygame.QUIT:
-                game=False
-
-        assets=load_assets()
-        WINDOW.blit(assets[TITLE_SCREEN], (0, 0))
-        pygame.display.update()
-
-    pygame.QUIT
-
-
-def draw_game_over():
-    assets=load_assets()
-
-    WINDOW.blit(assets[GAME_OVER], (0, 0))
-    pygame.display.update()
-    
-
 
 def setup_bat(BAT_WIDTH,BAT_HEIGHT): #cria o 'bat'
     assets=load_assets()
-    bat_img_rect=assets[BAT_IMG].get_rect(topleft=(BAT_POS_0))
-    WINDOW.blit(assets[BAT_IMG],bat_img_rect)
+    bat_img_rect=assets[BAT_IMG].get_rect(topleft=(BAT_POS_0)) # cria um retângulo a partir da imagem e posição do 'bat'
+    WINDOW.blit(assets[BAT_IMG],bat_img_rect) #desenha o bat
 
-    return bat_img_rect
+    return bat_img_rect 
 
 
 
 def setup_blocks(): #cria os blocos
     assets=load_assets()
-    blocks_rect={}
-    block_keys=[]
-    for block in block_positions.keys():
-        block_img_blu_scale=pygame.transform.scale(assets[BLOCK_IMG_BLU], (BLOCK_WIDTH,BLOCK_HEIGHT))
+    blocks_rect={} # dicionário com valores sendo os retângulos criados
+    block_keys=[]#lista com as chaves de TODOS os block
 
     for block in block_positions.keys():
-        block_keys.append(block)
-        block_img_rect=block_img_blu_scale.get_rect(topleft=(block_positions[block][0],block_positions[block][1]))
-        blocks_rect[block]=block_img_rect
-        WINDOW.blit(block_img_blu_scale,block_img_rect)
+        block_img_blu_scale=pygame.transform.scale(assets[BLOCK_IMG_BLU], (BLOCK_WIDTH,BLOCK_HEIGHT)) # cria uma imagem em escada dos blocos
+
+    for block in block_positions.keys():
+        block_keys.append(block) # adiciona a chave do bloco à lista de chaves
+        block_img_rect = block_img_blu_scale.get_rect(topleft=(block_positions[block][0],block_positions[block][1])) # cria um retângulo a partir da imagem block_img_blu_scale
+        blocks_rect[block]=block_img_rect #adiciona o retângulo ao dicionário de retângulos
+
+        WINDOW.blit(block_img_blu_scale,block_img_rect)# desenha o bloco
 
     return [block_img_blu_scale,blocks_rect,block_keys]
 
 def setup_ball(): # cria a bola
     assets=load_assets()
 
-    ball_img_rect=assets[BALL_IMG].get_rect(topleft=(BALL_POS_0))
-    WINDOW.blit(assets[BALL_IMG], ball_img_rect)
+    ball_img_rect=assets[BALL_IMG].get_rect(topleft=(BALL_POS_0)) # cria um retângulo a partir da imagem da bola
 
-    current_speed_HOR=BALL_SPEED_HOR
-    current_speed_VERT=BALL_SPEED_VERT
-    return [[current_speed_HOR,current_speed_VERT],ball_img_rect]
+    WINDOW.blit(assets[BALL_IMG], ball_img_rect) # desenha a bola
+
+    return ball_img_rect
 
 
 def setup_window(): #puxa outras funções setup e cria a janela
@@ -90,80 +70,83 @@ def setup_window(): #puxa outras funções setup e cria a janela
     WINDOW.blit(assets[BACKGROUND], (0, 0))
 
     bat_img_rect=setup_bat(BAT_WIDTH,BAT_HEIGHT)
-    lista_current_speed=setup_ball()[0]
-    ball_img_rect=setup_ball()[1]
+    ball_img_rect=setup_ball()
+    lista_current_speed=[BALL_SPEED_HOR,BALL_SPEED_VERT] # lista para armazenar as velocidades vertical e horizontal da bola
     block_keys=setup_blocks()[2]
     block_rect=setup_blocks()[1]
     block_img_blu_scale=setup_blocks()[0]
 
     pygame.display.update()
-    return [lista_current_speed,ball_img_rect,bat_img_rect,block_rect,block_img_blu_scale,block_keys]
+    return [lista_current_speed,ball_img_rect,bat_img_rect,block_rect,block_img_blu_scale,block_keys] # retorna valores a serem alterados durante o andamento do jogo
     
-def update_blocks(lista): # atualiza os blocos
+def update_blocks(lista): # atualiza os blocos (#recebe uma lista com block_img_blu_scale, blocks_rect e block_keys)
     assets=load_assets()
+
     block_img_blu_scale=lista[0]
     blocks_rect=lista[1]
     block_keys=lista[2]
-    for block in block_keys:
+
+    for block in block_keys: # o processo a seguir é repetido para todos os blocos
         if block in blocks_rect.keys() and BALL_POS[0]-block_positions[block][0]<=BLOCK_WIDTH and BALL_POS[0]-block_positions[block][0]>=0  and BALL_POS[1]-block_positions[block][1]<=BLOCK_HEIGHT and BALL_POS[1]-block_positions[block][1]>=0: #verifica condição de colisão entre bola e bloco
-            blocks_rect.pop(block)
-            pygame.mixer.Sound.play(assets[BLOCK_SOUND_1])
-        elif block in blocks_rect.keys():
-            block_img_rect=block_img_blu_scale.get_rect(topleft=(block_positions[block]))
-            blocks_rect[block]=block_img_rect
-            WINDOW.blit(block_img_blu_scale,block_img_rect)
+            blocks_rect.pop(block) # retira o bloco do dicionário
+            pygame.mixer.Sound.play(assets[BLOCK_SOUND_1]) # toca som de colisão com o bloco
+
+        elif block in blocks_rect.keys(): # verifica se o bloco ainda existe no dicionário de blocos
+
+            block_img_rect=block_img_blu_scale.get_rect(topleft=(block_positions[block]))# cria um retângulo com o bloco
+            WINDOW.blit(block_img_blu_scale,block_img_rect) # desenha o retângulo
     
 
 def update_speed(lista_current_speed,ball_img_rect,bat_img_rect,blocks_rect,block_keys): #atualiza os valores de velocidade vertical e horizontal
     assets=load_assets()
-    if BALL_POS[0]>=WIDTH or BALL_POS[0]<0 :
-        lista_current_speed[0]*=-1
+
+    if BALL_POS[0]>=WIDTH or BALL_POS[0]<0 :# verifica condição de colidão entre bola e as bordas da janela
+        lista_current_speed[0]*=-1 # inverte a velocidade horizontal da bola
         pygame.mixer.Sound.play(assets[PAREDE_SOUND]) # toca o som de colisão com as paredes
 
     if BALL_POS[1]>HEIGHT-BALL_HEIGHT or BALL_POS[1]<(0+BALL_HEIGHT): # verifica condição de colidão entre bola e as bordas da janela
-        lista_current_speed[1]*=-1
+        lista_current_speed[1]*=-1 # inverte a velocidade vertical da bola
         pygame.mixer.Sound.play(assets[PAREDE_SOUND])# toca o som de colisão com as paredes
 
     if BALL_POS[0]-BAT_POS[0]<=BAT_WIDTH and BALL_POS[0]-BAT_POS[0]>=0 and BALL_POS[1]-BAT_POS[1]<=BAT_HEIGHT and BALL_POS[1]-BAT_POS[1]>=0: # verifica condição de colisão enre bola e 'bat'
-        lista_current_speed[1]*=-1
+        lista_current_speed[1]*=-1 # inverte a velocidade vertical da bola
         pygame.mixer.Sound.play(assets[BAT_SOUND]) # toca o som de colisão com o 'bat'
 
-        if lista_current_speed[0] == -BALL_SPEED_HOR_BASE and BAT_POS[0]+BAT_WIDTH-BALL_POS[0]>=0:
-            lista_current_speed[0]*= - 1
-        if  lista_current_speed[0]== BALL_SPEED_HOR_BASE and BALL_POS[0]-(BAT_POS[0]+BAT_WIDTH/2)>0:
-            lista_current_speed[0]*= - 1
+        if lista_current_speed[0] == -BALL_SPEED_HOR_BASE and BAT_POS[0]+BAT_WIDTH-BALL_POS[0]>=0: # verifica a bola bateu na primeira metade do bat e se a velocidade é positiva
+            lista_current_speed[0]*= - 1 # inverte a velocidade horizontal da bola
+        if  lista_current_speed[0]== BALL_SPEED_HOR_BASE and BALL_POS[0]-(BAT_POS[0]+BAT_WIDTH/2)>0: # verifica a bola bateu na segunda metade do bat e se a velocidade é negativa
+            lista_current_speed[0]*= - 1 # inverte a velocidade horizontal da bola
 
 
     for block in block_keys:
         if block in blocks_rect.keys() and BALL_POS[0]-block_positions[block][0]<=BLOCK_WIDTH and BALL_POS[0]-block_positions[block][0]>=0  and BALL_POS[1]-block_positions[block][1]<=BLOCK_HEIGHT and BALL_POS[1]-block_positions[block][1]>=0: #verifica condição de colisão entre bola e bloco
-            lista_current_speed[1]*=-1
+            lista_current_speed[1]*=-1 # inverte a velocidade vertical da bola
 
-
-    return lista_current_speed,block_keys, blocks_rect
 
 def update_ball(event,speed_lista): # atualiza a posição da bola
 
     assets=load_assets()
 
-    BALL_POS[0]+=speed_lista[0]
-    BALL_POS[1]+=speed_lista[1]
+    BALL_POS[0]+=speed_lista[0] # atualiza a posição horizontal da bola com base na velocidade calculada em update_speed
+    BALL_POS[1]+=speed_lista[1] # atualiza a posição vertical da bola com base na velocidade calculada em update_speed
 
-    ball_img_rect=assets[BALL_IMG].get_rect(topleft=(BALL_POS))
+    ball_img_rect=assets[BALL_IMG].get_rect(topleft=(BALL_POS)) # cria o retângulo da bola na nova posição
 
-    WINDOW.blit(assets[BALL_IMG],ball_img_rect)
+    WINDOW.blit(assets[BALL_IMG],ball_img_rect) # desenha a bola na nova posição
 
 def update_bat(BAT_POS,event): #atualiza a posição do 'bat'
     assets=load_assets()
+
     if event.type == pygame.KEYDOWN:
         keys_down[event.key] = True
-        if event.key == pygame.K_LEFT and BAT_POS[0]>0:
-           BAT_POS_0[0]-=20
+        if event.key == pygame.K_LEFT and BAT_POS[0]>0: # verifica se a seta esquerda está apertada e se o bat não está saíndo da janela
+           BAT_POS_0[0]-=20 # move o bat para a esquerda
 
-        if event.key == pygame.K_RIGHT and BAT_POS[0]<(WIDTH-BAT_WIDTH):
-            BAT_POS_0[0]+=20
-    
-    bat_img_rect=assets[BAT_IMG].get_rect(topleft=(BAT_POS))
+        if event.key == pygame.K_RIGHT and BAT_POS[0]<(WIDTH-BAT_WIDTH): # verifica se a seta direita está apertada e se o bat não está saíndo da janela
+            BAT_POS_0[0]+=20 # move o bat para a direita
+     
+    bat_img_rect=assets[BAT_IMG].get_rect(topleft=(BAT_POS)) # cria um retângulo com o bat na nova posição
 
-    WINDOW.blit(assets[BAT_IMG], bat_img_rect)
+    WINDOW.blit(assets[BAT_IMG], bat_img_rect) #desenha o bat na nova posição
     
 WINDOW=pygame.display.set_mode((WIDTH,HEIGHT)) #configura a janela

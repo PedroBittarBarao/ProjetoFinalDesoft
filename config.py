@@ -26,7 +26,7 @@ QUIT = 2
 
 #Posições
 BALL_POS_0 = [WIDTH/2-BLOCK_WIDTH,535] #posição inicial da bola(horizontal,vertical)
-BAT_POS_0 = [WIDTH/2-BLOCK_WIDTH,550] #posição inicial 'bat'(horizontal,vertical)
+BAT_POS_0 = [WIDTH/2-BAT_WIDTH,550] #posição inicial 'bat'(horizontal,vertical)
 
 #Velocidades iniciais da bola
 BALL_SPEED_HOR_BASE = -14
