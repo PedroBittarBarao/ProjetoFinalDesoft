@@ -32,14 +32,17 @@ def draw_title_screen():
         for event in pygame.event.get():
             if event.type==pygame.QUIT:
                 game=False
+
         assets=load_assets()
         WINDOW.blit(assets[TITLE_SCREEN], (0, 0))
         pygame.display.update()
+
     pygame.QUIT
 
 
 def draw_game_over():
     assets=load_assets()
+
     WINDOW.blit(assets[GAME_OVER], (0, 0))
     pygame.display.update()
     
@@ -49,6 +52,7 @@ def setup_bat(BAT_WIDTH,BAT_HEIGHT): #cria o 'bat'
     assets=load_assets()
     bat_img_rect=assets[BAT_IMG].get_rect(topleft=(BAT_POS_0))
     WINDOW.blit(assets[BAT_IMG],bat_img_rect)
+
     return bat_img_rect
 
 
@@ -59,17 +63,21 @@ def setup_blocks(): #cria os blocos
     block_keys=[]
     for block in block_positions.keys():
         block_img_blu_scale=pygame.transform.scale(assets[BLOCK_IMG_BLU], (BLOCK_WIDTH,BLOCK_HEIGHT))
+
     for block in block_positions.keys():
         block_keys.append(block)
         block_img_rect=block_img_blu_scale.get_rect(topleft=(block_positions[block][0],block_positions[block][1]))
         blocks_rect[block]=block_img_rect
         WINDOW.blit(block_img_blu_scale,block_img_rect)
+
     return [block_img_blu_scale,blocks_rect,block_keys]
 
 def setup_ball(): # cria a bola
     assets=load_assets()
+
     ball_img_rect=assets[BALL_IMG].get_rect(topleft=(BALL_POS_0))
     WINDOW.blit(assets[BALL_IMG], ball_img_rect)
+
     current_speed_HOR=BALL_SPEED_HOR
     current_speed_VERT=BALL_SPEED_VERT
     return [[current_speed_HOR,current_speed_VERT],ball_img_rect]
@@ -77,8 +85,10 @@ def setup_ball(): # cria a bola
 
 def setup_window(): #puxa outras funções setup e cria a janela
     WINDOW.fill((255,255,255))
+
     assets=load_assets()
     WINDOW.blit(assets[BACKGROUND], (0, 0))
+
     bat_img_rect=setup_bat(BAT_WIDTH,BAT_HEIGHT)
     lista_current_speed=setup_ball()[0]
     ball_img_rect=setup_ball()[1]
@@ -106,25 +116,40 @@ def update_blocks(lista): # atualiza os blocos
 
 def update_speed(lista_current_speed,ball_img_rect,bat_img_rect,blocks_rect,block_keys): #atualiza os valores de velocidade vertical e horizontal
     assets=load_assets()
-    if BALL_POS[0]>WIDTH or BALL_POS[0]<0 :
+    if BALL_POS[0]>=WIDTH or BALL_POS[0]<0 :
         lista_current_speed[0]*=-1
         pygame.mixer.Sound.play(assets[PAREDE_SOUND]) # toca o som de colisão com as paredes
+
     if BALL_POS[1]>HEIGHT-BALL_HEIGHT or BALL_POS[1]<(0+BALL_HEIGHT): # verifica condição de colidão entre bola e as bordas da janela
         lista_current_speed[1]*=-1
         pygame.mixer.Sound.play(assets[PAREDE_SOUND])# toca o som de colisão com as paredes
+
     if BALL_POS[0]-BAT_POS[0]<=BAT_WIDTH and BALL_POS[0]-BAT_POS[0]>=0 and BALL_POS[1]-BAT_POS[1]<=BAT_HEIGHT and BALL_POS[1]-BAT_POS[1]>=0: # verifica condição de colisão enre bola e 'bat'
         lista_current_speed[1]*=-1
         pygame.mixer.Sound.play(assets[BAT_SOUND]) # toca o som de colisão com o 'bat'
+
+        if lista_current_speed[0] == -BALL_SPEED_HOR_BASE and BAT_POS[0]+BAT_WIDTH-BALL_POS[0]>=0:
+            lista_current_speed[0]*= - 1
+        if  lista_current_speed[0]== BALL_SPEED_HOR_BASE and BALL_POS[0]-(BAT_POS[0]+BAT_WIDTH/2)>0:
+            lista_current_speed[0]*= - 1
+
+
     for block in block_keys:
         if block in blocks_rect.keys() and BALL_POS[0]-block_positions[block][0]<=BLOCK_WIDTH and BALL_POS[0]-block_positions[block][0]>=0  and BALL_POS[1]-block_positions[block][1]<=BLOCK_HEIGHT and BALL_POS[1]-block_positions[block][1]>=0: #verifica condição de colisão entre bola e bloco
             lista_current_speed[1]*=-1
+
+
     return lista_current_speed,block_keys, blocks_rect
 
 def update_ball(event,speed_lista): # atualiza a posição da bola
+
     assets=load_assets()
+
     BALL_POS[0]+=speed_lista[0]
     BALL_POS[1]+=speed_lista[1]
+
     ball_img_rect=assets[BALL_IMG].get_rect(topleft=(BALL_POS))
+
     WINDOW.blit(assets[BALL_IMG],ball_img_rect)
 
 def update_bat(BAT_POS,event): #atualiza a posição do 'bat'
@@ -133,12 +158,12 @@ def update_bat(BAT_POS,event): #atualiza a posição do 'bat'
         keys_down[event.key] = True
         if event.key == pygame.K_LEFT and BAT_POS[0]>0:
            BAT_POS_0[0]-=20
+
         if event.key == pygame.K_RIGHT and BAT_POS[0]<(WIDTH-BAT_WIDTH):
             BAT_POS_0[0]+=20
     
     bat_img_rect=assets[BAT_IMG].get_rect(topleft=(BAT_POS))
+
     WINDOW.blit(assets[BAT_IMG], bat_img_rect)
     
-
-
 WINDOW=pygame.display.set_mode((WIDTH,HEIGHT)) #configura a janela
