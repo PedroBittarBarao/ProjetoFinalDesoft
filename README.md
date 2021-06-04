@@ -1,14 +1,18 @@
 # ProjetoFinalDesoft
 
-Grupo:
+## Grupo:
 Pedro Bittar Barão
 Mia Machado
 
-O jogo consistirá em uma recriação do clássico de Arcade e Atari, Breakout.
-O jogo terá um placar com o número de blocos que o jogador quebrou
-A plataforma será controlada com o teclado ou mouse(a definir);
-Possíveis opções adicionais são:
-Aumento da velocidade da bola de acordo com o placar;
-Redução do tamanho da plataforma do jogador de acordo com o placar;
-Diferentes músicas e fundos;
-Power-ups(Múltiplas bolinhas; plataforma maior,etc)
+## Descrição:
+O jogo consiste em uma recriação do clássico de Arcade e Atari, Breakout.
+
+O jogo tem um placar com o número de blocos que o jogador quebrou
+
+O jogador tem três vidas para tentar quebrar todos os blocos
+
+A plataforma pode ser controlada com as setas do teclado
+
+Para jogar, execute o arquivo Jogo.py.
+
+Certifique-se de ter instalado python 3 e a biblioteca pygame.
