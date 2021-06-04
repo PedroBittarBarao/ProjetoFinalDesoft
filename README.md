@@ -1,8 +1,8 @@
 # ProjetoFinalDesoft
 
 ## Grupo:
-Pedro Bittar Barão
-Mia Machado
+Pedro Bittar Barão.
+Mia Machado.
 
 ## Descrição:
 O jogo consiste em uma recriação do clássico de Arcade e Atari, Breakout.
