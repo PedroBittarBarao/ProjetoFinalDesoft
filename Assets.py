@@ -26,8 +26,8 @@ def load_assets():
     assets = {}
     
     #Imagens
-    assets[TITLE_SCREEN] = pygame.image.load(os.path.join(IMG_DIR, 'Title_screen_placeholder.png')).convert()
-    assets[GAME_OVER]= pygame.image.load(os.path.join(IMG_DIR, 'game_over_placeholder.png')).convert()
+    assets[TITLE_SCREEN] = pygame.image.load(os.path.join(IMG_DIR, 'Title_Screen_1.0.png')).convert()
+    assets[GAME_OVER]= pygame.image.load(os.path.join(IMG_DIR, 'Game_Over.png')).convert()
     assets[BACKGROUND] = pygame.image.load(os.path.join(IMG_DIR, 'white_star_bg.jpg')).convert()
     
     assets[BALL_IMG] = pygame.image.load(os.path.join(IMG_DIR, 'ball_red.png')).convert_alpha()
