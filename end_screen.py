@@ -9,7 +9,7 @@ def end_screen(window):
     clock = pygame.time.Clock()
 
     # Carrega o fundo da tela inicial
-    background = pygame.image.load(path.join(IMG_DIR, 'inicio.png')).convert()
+    background = pygame.image.load(path.join(IMG_DIR, 'Game_Over.png')).convert()
     background_rect = background.get_rect()
 
     running = True
@@ -30,8 +30,8 @@ def end_screen(window):
                 running = False
 
         # A cada loop, redesenha o fundo e os sprites
-        screen.fill(BLACK)
-        screen.blit(background, background_rect)
+        window.fill(BLACK)
+        window.blit(background, background_rect)
 
         # Depois de desenhar tudo, inverte o display.
         pygame.display.flip()
