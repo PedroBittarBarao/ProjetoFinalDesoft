@@ -25,12 +25,6 @@ INIT = 0
 GAME = 1
 QUIT = 2
 
-"""
-#Posições
-BALL_POS_0 = [SW/2 - BLOCK_W, 535] #posição inicial da bola(horizontal,vertical)
-BAT_POS_0 = [SW/2 - BAT_W, 550] #posição inicial 'bat'(horizontal,vertical)
+BALL_SPEEDX_0 = 3
+BALL_SPEEDY_0 = -2
 
-#Velocidades iniciais da bola
-BALL_SPEED_HOR_BASE = -14
-BALL_SPEED_VERT_BASE = -15
-"""
