@@ -1,16 +1,8 @@
 import pygame
-
-from config import SW, SH, FPS, BLACK, WHITE, INIT, GAME, QUIT
-from assets import  load_assets, BACKGROUND, BLOCK_IMG_RED, BLOCK_IMG_GRN, BLOCK_IMG_BLU, BLOCK_IMG_YLW, WALL_SND, BLOCK_SND_1, BLOCK_SND_2, GAME_FNT
+from config import SW, SH, FPS, BLACK, WHITE
+from Assets import  load_assets, BACKGROUND,   BLOCK_IMG_RED, BLOCK_IMG_GRN, BLOCK_IMG_BLU, BLOCK_IMG_YLW,   BAT_SND, BLOCK_SND_1, BLOCK_SND_2,   GAME_FNT
 from sprites import Ball, Bat, Block
 
-
-pygame.init()
-pygame.mixer.init()
-
-# ----- Gera tela principal
-window = pygame.display.set_mode((SW, SH))
-pygame.display.set_caption('Breakout')
 
 def game_screen(window):
     # Variável para o ajuste de velocidade
@@ -18,21 +10,27 @@ def game_screen(window):
 
     assets = load_assets()
 
-    # Criando um grupo de meteoros
+    # Criação de grupos de sprites
+    all_balls = pygame.sprite.Group()
     all_sprites = pygame.sprite.Group()
     all_blocks = pygame.sprite.Group()
 
     groups = {}
+    groups['all_balls'] = all_balls
     groups['all_sprites'] = all_sprites
     groups['all_blocks'] = all_blocks
 
-    # Criando elementos do jogo
+    # Criando elementos do jogo:
+    
+    # Bola (é inserida num grupo de bolas para a execução da colisão com o 'bat')
     ball = Ball(assets)
     all_sprites.add(ball)
+    all_balls.add(ball)
+    # Bat
     player = Bat(assets)
     all_sprites.add(player)
 
-    #Criando os blocos
+    # Blocos (c--> coluna, l--> linha)
     for c in range(1, 13):
         for l in range (1, 3):
             block = Block(assets, BLOCK_IMG_RED, l, c)
@@ -94,22 +92,55 @@ def game_screen(window):
         # ----- Atualiza estado do jogo
         all_sprites.update()
 
-        if state == GAME:
+        if state == GAME: 
+            #Colisões:
+
+            #Colisão bola-paddle/bat
+            if pygame.sprite.spritecollide(player, all_balls, False):
+                assets[BAT_SND].play()
+                ball.speedy *= -1
             
-            #Colisão bola-paddle/bat:
-            #if pygame.sprite.spritecollide(player, all_sprites, True, pygame.sprite.collide_mask):
-                #ball.speedy *= -1
-            
-            #Colisão bola-bloco:
+            #Colisão bola-bloco
             block_hits = pygame.sprite.spritecollide(ball, all_blocks, True, pygame.sprite.collide_mask)
             for block in block_hits:
                 assets[BLOCK_SND_1].play()
                 ball.speedy *= -1
+                
+                #Diferentes pontuações para cada cor
+           
+            #Se a bola cair 
+            if ball.rect.top > SH:
+                ball.kill() 
+                lives -= 1
+                print (lives)
+                if lives == 0:
+                    state = QUIT
+                else:
+                    state = GAME
+                    ball = Ball(assets)
+                    all_sprites.add(ball)
+                    all_balls.add(ball)
 
-                score+= 10
+            """
+            if ball.rect.y > HEIGHT:
+            ball.rect.x = WIDTH // 2 - 5
+            ball.rect.y = HEIGHT // 2 - 5
+            ball.velocity[1] = ball.velocity[1]
+            balls += 1
+            if balls == 4:
+                font = pygame.font.Font('text_style/DSEG14Classic-Bold.ttf', 70)
+                text = font.render("GAME OVER", 1, WHITE)
+                text_rect = text.get_rect(center=(WIDTH / 2, HEIGHT / 2))
+                screen.blit(text, text_rect)
+                pygame.display.update()
+                pygame.time.wait(2000)
+                run = False
+            """
+            #mortes = 0
+            
 
         # ----- Gera saídas
-        window.fill(BLACK)  # Preenche com a cor branca
+        window.fill(BLACK)
         window.blit(assets[BACKGROUND], (0, 0))
         # Desenhando todos os sprites
         all_sprites.draw(window)
@@ -126,7 +157,3 @@ def game_screen(window):
 
         pygame.display.update()  # Mostra o novo frame para o jogador
 
-game_screen(window)
-
-#Finalização
-pygame.quit()
