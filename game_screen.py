@@ -15,14 +15,21 @@ def game_screen(window):
     # Armazenando assets
     assets = load_assets()
 
-    # Criação de grupos de sprites 
+    # Criação de grupos de sprites (cria grupos diferentes para cada cor de bloco)
     all_balls = pygame.sprite.Group()
     all_sprites = pygame.sprite.Group()
-    all_blocks = pygame.sprite.Group()
+    all_r_blocks = pygame.sprite.Group()
+    all_b_blocks = pygame.sprite.Group()
+    all_g_blocks = pygame.sprite.Group()
+    all_y_blocks = pygame.sprite.Group()
+
     groups = {}
     groups['all_balls'] = all_balls
     groups['all_sprites'] = all_sprites
-    groups['all_blocks'] = all_blocks
+    groups['all_r_blocks'] = all_r_blocks
+    groups['all_b_blocks'] = all_b_blocks
+    groups['all_g_blocks'] = all_g_blocks
+    groups['all_y_blocks'] = all_y_blocks
 
     # Criando elementos do jogo:
     
@@ -39,19 +46,19 @@ def game_screen(window):
         for l in range (1, 3):
             block = Block(assets, BLOCK_IMG_RED, l, c)
             all_sprites.add(block)
-            all_blocks.add(block)
+            all_r_blocks.add(block)
         for l in range (3, 5):
             block = Block(assets, BLOCK_IMG_BLU, l, c)
             all_sprites.add(block)
-            all_blocks.add(block)
+            all_b_blocks.add(block)
         for l in range (5, 7):
             block = Block(assets, BLOCK_IMG_GRN, l, c)
             all_sprites.add(block)
-            all_blocks.add(block)
+            all_g_blocks.add(block)
         for l in range(7, 9):
             block = Block(assets, BLOCK_IMG_YLW, l, c)
             all_sprites.add(block)
-            all_blocks.add(block)
+            all_y_blocks.add(block)
 
     INIT = 0
     GAME = 1
@@ -95,26 +102,46 @@ def game_screen(window):
                         if event.key == pygame.K_RIGHT:
                             player.speedx -= 15
 
-        # ----- Atualiza estado do jogo
+        # Atualiza estado do jogo
         all_sprites.update()
 
         if state == GAME: 
             
-            # Colisões:
+            # ----- Colisões:
 
             # Colisão bola-bat
             if pygame.sprite.spritecollide(player, all_balls, False, pygame.sprite.collide_mask ):
                 assets[BAT_SND].play()
                 ball.speedy *= -1
   
-            # Colisão bola-bloco
-            block_hits = pygame.sprite.spritecollide(ball, all_blocks, True, pygame.sprite.collide_mask)
+            # Colisões bola-bloco
+            
+            # Bola - Bloco vermelho
+            block_hits = pygame.sprite.spritecollide(ball, all_r_blocks, True, pygame.sprite.collide_mask)
             for block in block_hits:
                 assets[BLOCK_SND_1].play()
                 ball.speedy *= -1
-                
-            """Diferentes pontuações para cada cor"""
-           
+                score += 35
+            # Bola - Bloco azul
+            block_hits = pygame.sprite.spritecollide(ball, all_b_blocks, True, pygame.sprite.collide_mask)
+            for block in block_hits:
+                assets[BLOCK_SND_1].play()
+                ball.speedy *= -1
+                score += 25         
+            # Bola - Bloco verde
+            block_hits = pygame.sprite.spritecollide(ball, all_g_blocks, True, pygame.sprite.collide_mask)
+            for block in block_hits:
+                assets[BLOCK_SND_1].play()
+                ball.speedy *= -1
+                score += 15
+            # Bola - Bloco amarelo
+            block_hits = pygame.sprite.spritecollide(ball, all_y_blocks, True, pygame.sprite.collide_mask)
+            for block in block_hits:
+                assets[BLOCK_SND_1].play()
+                ball.speedy *= -1
+                score += 5
+
+
             # Se o topo da bola passar do limite da tela (se ela cair):
             if ball.rect.top > SH:
                 ball.kill() 
@@ -131,22 +158,6 @@ def game_screen(window):
                     ball = Ball(assets)
                     all_sprites.add(ball)
                     all_balls.add(ball)
-
-            """
-            if ball.rect.y > HEIGHT:
-            ball.rect.x = WIDTH // 2 - 5
-            ball.rect.y = HEIGHT // 2 - 5
-            ball.velocity[1] = ball.velocity[1]
-            balls += 1
-            if balls == 4:
-                font = pygame.font.Font('text_style/DSEG14Classic-Bold.ttf', 70)
-                text = font.render("GAME OVER", 1, WHITE)
-                text_rect = text.get_rect(center=(WIDTH / 2, HEIGHT / 2))
-                screen.blit(text, text_rect)
-                pygame.display.update()
-                pygame.time.wait(2000)
-                run = False
-            """
         
         # ----- Gera saídas
         window.fill(BLACK)
