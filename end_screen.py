@@ -1,7 +1,10 @@
+"""
+Arquivo com a tela final do jogo.
+"""
+
 import pygame
 from os import path
 from config import IMG_DIR,   FPS,    BLACK,   GAME, QUIT
-"from Assets"
 
 
 def end_screen(window):
@@ -13,6 +16,8 @@ def end_screen(window):
     background_rect = background.get_rect()
 
     running = True
+    """state = QUIT"""
+
     while running:
 
         # Ajusta a velocidade do jogo.

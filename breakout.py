@@ -1,3 +1,13 @@
+"""
+Autores: Pedro Barão e Mia Machado.
+Arquivo principal do jogo - rode-o para jogar 'Breakout'.
+
+Aqui importamos todas as telas do jogo, ordenando elas dentro de um laço condicional (while state !== QUIT: ...)
+Também importamos as dimensões da tela e os estados do jogo diretamente do arquivo config.py (configurações do jogo).
+
+O módulo pygame é inicializado; a janela é criada; o estado inicial de jogo é estabelecido e um laço de repetição define a execução do jogo; o módulo pygame é finalizado. 
+"""
+
 # ===== Inicialização =====
 # ----- Importa e inicia pacotes
 import pygame
@@ -22,6 +32,10 @@ while state != QUIT:
         state = game_screen(window)
     elif state == QUIT:
         state = end_screen(window)
+        """
+        if state == GAME:
+            state = game_screen(window)
+        """
 
 # ===== Finalização =====
 pygame.quit()

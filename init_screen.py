@@ -1,6 +1,10 @@
+"""
+Arquivo com a tela inicial do jogo.
+"""
+
 import pygame
 from os import path
-from config import IMG_DIR,   FPS,    BLACK,   GAME, QUIT
+from config import IMG_DIR,   FPS,   BLACK,   GAME, QUIT
 "from Assets"
 
 
@@ -18,9 +22,9 @@ def init_screen(window):
         # Ajusta a velocidade do jogo.
         clock.tick(FPS)
 
-        # Processa os eventos (mouse, teclado, botão, etc).
+        # Processa os eventos (mouse, teclado, botão, etc)
         for event in pygame.event.get():
-            # Verifica se foi fechado.
+            # Verifica se foi fechado
             if event.type == pygame.QUIT:
                 state = QUIT
                 running = False
@@ -33,7 +37,7 @@ def init_screen(window):
         window.fill(BLACK)
         window.blit(background, background_rect)
 
-        # Depois de desenhar tudo, inverte o display.
+        # Depois de desenhar tudo, inverte o display
         pygame.display.flip()
 
     return state

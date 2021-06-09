@@ -1,5 +1,9 @@
+"""
+Arquivo com a tela principal do jogo.
+"""
+
 import pygame
-from config import SW, SH, FPS, BLACK, WHITE
+from config import SW, SH,   FPS,   BLACK, WHITE,   GAME, QUIT
 from Assets import  load_assets, BACKGROUND,   BLOCK_IMG_RED, BLOCK_IMG_GRN, BLOCK_IMG_BLU, BLOCK_IMG_YLW,   BAT_SND, BLOCK_SND_1, BLOCK_SND_2,   GAME_FNT
 from sprites import Ball, Bat, Block
 
@@ -8,13 +12,13 @@ def game_screen(window):
     # Variável para o ajuste de velocidade
     clock = pygame.time.Clock()
 
+    # Armazenando assets
     assets = load_assets()
 
-    # Criação de grupos de sprites
+    # Criação de grupos de sprites 
     all_balls = pygame.sprite.Group()
     all_sprites = pygame.sprite.Group()
     all_blocks = pygame.sprite.Group()
-
     groups = {}
     groups['all_balls'] = all_balls
     groups['all_sprites'] = all_sprites
@@ -49,19 +53,21 @@ def game_screen(window):
             all_sprites.add(block)
             all_blocks.add(block)
 
-
     INIT = 0
     GAME = 1
-    QUIT = 2
+    QUIT = 2 
 
     state = GAME
 
+    # Dicionário de eventos do teclado
     keys_down = {}
+
+    # Pontuação e vidas
     score = 0
     lives = 3
 
     # ===== Loop principal =====
-    #pygame.mixer.music.play(loops=-1)
+    # pygame.mixer.music.play(loops=-1)
     while state != QUIT:
         clock.tick(FPS)
 
@@ -72,17 +78,17 @@ def game_screen(window):
                 state = QUIT
             # Só verifica o teclado se está no estado de jogo
             if state == GAME:
-                # Verifica se apertou alguma tecla.
+                # Verifica se apertou alguma tecla
                 if event.type == pygame.KEYDOWN:
-                    # Dependendo da tecla, altera a velocidade.
+                    # Dependendo da tecla, altera a velocidade
                     keys_down[event.key] = True
                     if event.key == pygame.K_LEFT:
                         player.speedx -= 15
                     if event.key == pygame.K_RIGHT:
                         player.speedx += 15
-                # Verifica se soltou alguma tecla.
+                # Verifica se soltou alguma tecla
                 if event.type == pygame.KEYUP:
-                    # Dependendo da tecla, altera a velocidade.
+                    # Dependendo da tecla, altera a velocidade
                     if event.key in keys_down and keys_down[event.key]:
                         if event.key == pygame.K_LEFT:
                             player.speedx += 15
@@ -93,29 +99,34 @@ def game_screen(window):
         all_sprites.update()
 
         if state == GAME: 
-            #Colisões:
+            
+            # Colisões:
 
-            #Colisão bola-paddle/bat
-            if pygame.sprite.spritecollide(player, all_balls, False):
+            # Colisão bola-bat
+            if pygame.sprite.spritecollide(player, all_balls, False, pygame.sprite.collide_mask ):
                 assets[BAT_SND].play()
                 ball.speedy *= -1
-            
-            #Colisão bola-bloco
+  
+            # Colisão bola-bloco
             block_hits = pygame.sprite.spritecollide(ball, all_blocks, True, pygame.sprite.collide_mask)
             for block in block_hits:
                 assets[BLOCK_SND_1].play()
                 ball.speedy *= -1
                 
-                #Diferentes pontuações para cada cor
+            """Diferentes pontuações para cada cor"""
            
-            #Se a bola cair 
+            # Se o topo da bola passar do limite da tela (se ela cair):
             if ball.rect.top > SH:
                 ball.kill() 
                 lives -= 1
-                print (lives)
+                # Aguardo de 3 segundos
+                pygame.time.delay(3000)
+
+                # Se não houver mais vidas disponíveis, o jogo acaba  
                 if lives == 0:
                     state = QUIT
                 else:
+                    # Caso contrário, a bola será redesenhada na tela 
                     state = GAME
                     ball = Ball(assets)
                     all_sprites.add(ball)
@@ -136,9 +147,7 @@ def game_screen(window):
                 pygame.time.wait(2000)
                 run = False
             """
-            #mortes = 0
-            
-
+        
         # ----- Gera saídas
         window.fill(BLACK)
         window.blit(assets[BACKGROUND], (0, 0))
@@ -147,7 +156,7 @@ def game_screen(window):
 
         # Desenhando o score
         text_surface = assets[GAME_FNT].render('SCORE :{} '.format(score), True, WHITE)
-        text_rect = text_surface.get_rect(x = 200, y = 570)
+        text_rect = text_surface.get_rect(x = 230, y = 570)
         window.blit(text_surface, text_rect)
 
         # Desenhando as vidas
@@ -155,5 +164,8 @@ def game_screen(window):
         text_rect = text_surface.get_rect(x = 10, y = 570)
         window.blit(text_surface, text_rect)
 
-        pygame.display.update()  # Mostra o novo frame para o jogador
+        # Mostra o novo frame para o jogador
+        pygame.display.update()
+
+    """return state"""
 

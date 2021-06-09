@@ -1,4 +1,7 @@
-#Arquivo para carregar assets
+"""
+Arquivo para carregar assets (imagens, sons, fontes).
+"""
+
 import pygame
 import os
 from config import BALL_W, BALL_H,   BAT_W, BAT_H,   BLOCK_W, BLOCK_H,   IMG_DIR, SND_DIR, FNT_DIR

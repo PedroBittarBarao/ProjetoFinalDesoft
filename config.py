@@ -1,4 +1,7 @@
-#Arquivo com configurações e constantes
+"""
+Arquivo com configurações e constantes.
+"""
+
 from os import path
 
 #Caminhos
@@ -25,6 +28,6 @@ INIT = 0
 GAME = 1
 QUIT = 2
 
-BALL_SPEEDX_0 = 3
-BALL_SPEEDY_0 = -2
+BALL_SPEEDX_0 = 4
+BALL_SPEEDY_0 = -3
 
