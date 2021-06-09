@@ -16,3 +16,5 @@ Para jogar, execute o arquivo breakout.py.
 Certifique-se de ter instalado python 3 e a biblioteca pygame.
 
 ## Vídeo explicativo:
+
+https://youtu.be/E45CEaRbQRA
