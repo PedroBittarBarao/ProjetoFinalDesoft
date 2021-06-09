@@ -11,7 +11,7 @@ O módulo pygame é inicializado; a janela é criada; o estado inicial de jogo �
 # ===== Inicialização =====
 # ----- Importa e inicia pacotes
 import pygame
-from config import SW, SH, INIT, GAME, QUIT
+from config import SW, SH, INIT, GAME, QUIT, END
 from init_screen import init_screen
 from game_screen import game_screen
 from end_screen import end_screen
@@ -30,7 +30,7 @@ while state != QUIT:
         state = init_screen(window)
     elif state == GAME:
         state = game_screen(window)
-    elif state == QUIT:
+    elif state == END:
         state = end_screen(window)
         """
         if state == GAME:

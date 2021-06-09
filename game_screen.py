@@ -3,7 +3,7 @@ Arquivo com a tela principal do jogo.
 """
 
 import pygame
-from config import SW, SH,   FPS,   BLACK, WHITE,   GAME, QUIT
+from config import SW, SH,   FPS,   BLACK, WHITE,   GAME, QUIT,END
 from Assets import  load_assets, BACKGROUND,   BLOCK_IMG_RED, BLOCK_IMG_GRN, BLOCK_IMG_BLU, BLOCK_IMG_YLW,   BAT_SND, BLOCK_SND_1, BLOCK_SND_2,   GAME_FNT
 from sprites import Ball, Bat, Block
 
@@ -124,7 +124,7 @@ def game_screen(window):
 
                 # Se não houver mais vidas disponíveis, o jogo acaba  
                 if lives == 0:
-                    state = QUIT
+                    state = END
                 else:
                     # Caso contrário, a bola será redesenhada na tela 
                     state = GAME
@@ -167,5 +167,5 @@ def game_screen(window):
         # Mostra o novo frame para o jogador
         pygame.display.update()
 
-    """return state"""
+    return state
 
