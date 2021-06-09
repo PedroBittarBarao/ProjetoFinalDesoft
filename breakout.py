@@ -32,10 +32,6 @@ while state != QUIT:
         state = game_screen(window)
     elif state == END:
         state = end_screen(window)
-        """
-        if state == GAME:
-            state = game_screen(window)
-        """
 
 # ===== Finalização =====
 pygame.quit()
