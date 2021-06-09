@@ -146,8 +146,8 @@ def game_screen(window):
             if ball.rect.top > SH:
                 ball.kill() 
                 lives -= 1
-                # Aguardo de 3 segundos
-                pygame.time.delay(3000)
+                # Aguardo de 2 segundos
+                pygame.time.delay(2000)
 
                 # Se não houver mais vidas disponíveis, o jogo acaba  
                 if lives == 0:
